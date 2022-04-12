@@ -1,10 +1,10 @@
-package de.tdf.helpy.listener.background.Inventory;
+package de.tdf.helpy.listener.Entities.Player;
 
-import org.bukkit.event.EventHandler;
 import de.tdf.helpy.methods.Other;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class InvSpeed implements Listener
 {
