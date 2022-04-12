@@ -38,7 +38,8 @@ public final class Helpy extends JavaPlugin {
 	public static List<String> listeners = new ArrayList<>(
 			Arrays.asList("TreeCutDown", "Doors", "CreeperRemovePotion",
 					"CreeperActivateCreeper", "ClickGrowedSeed")),
-			broadcasts = new ArrayList<>(Arrays.asList("Example Broadcast", "Another Example broadcast", "continue this list!"));
+			broadcasts = new ArrayList<>(Arrays.asList("Example Broadcast", "Hey Maxim",
+					"continue this list!", "Keine Doppelpunkte verwenden!", "§aColor §6codes via Paragraphenzeichen"));
 
 
 	public void onEnable() {
@@ -135,9 +136,9 @@ public final class Helpy extends JavaPlugin {
 			con.set("broadcast.delayInSeconds", 40);
 		if (!con.isSet("Broadcast.toggle"))
 			con.set("broadcast.toggle", true);
-		if (!con.isSet("Broadcast.excludeConsole"))
+		if (!con.isSet("broadcast.excludeConsole"))
 			con.set("broadcast.excludeConsole", false);
-		if (!con.isSet("Broadcast.prefix"))
+		if (!con.isSet("broadcast.prefix"))
 			con.set("broadcast.prefix", Eng.PRE);
 		if (con.getBoolean("broadcast.toggle"))
 			BroadcastLoop.startLoop();

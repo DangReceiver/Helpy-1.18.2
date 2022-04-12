@@ -12,16 +12,17 @@ import java.util.Random;
 public class BroadcastLoop {
 
 	static int current = 0;
-	private static final String pre = Helpy.getPlugin().getConfig().getString("Broadcast.prefix");
+	private static String pre = "";
 
 	public static void startLoop() {
 
 		FileConfiguration con = Helpy.getPlugin().getConfig();
 		long period = con.getLong("broadcast.delayInSeconds");
 		boolean order = con.getBoolean("broadcast.inOrder"),
-				playersOnly = con.isSet("Broadcast.excludeConsole");
+				playersOnly = con.isSet("broadcast.excludeConsole");
 
 		List<String> bc = Helpy.broadcasts;
+		pre = con.getString("broadcast.prefix");
 
 		System.out.println(Eng.PRE + String.format("The broadcast loop was started. Set delay: %s", period));
 
