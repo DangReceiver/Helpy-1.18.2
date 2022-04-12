@@ -135,6 +135,10 @@ public final class Helpy extends JavaPlugin {
 			con.set("broadcast.delayInSeconds", 40);
 		if (!con.isSet("Broadcast.toggle"))
 			con.set("broadcast.toggle", true);
+		if (!con.isSet("Broadcast.excludeConsole"))
+			con.set("broadcast.excludeConsole", false);
+		if (!con.isSet("Broadcast.prefix"))
+			con.set("broadcast.prefix", Eng.PRE);
 		if (con.getBoolean("broadcast.toggle"))
 			BroadcastLoop.startLoop();
 		getPlugin().saveConfig();
