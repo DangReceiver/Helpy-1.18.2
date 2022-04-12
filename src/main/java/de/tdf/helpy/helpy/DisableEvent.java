@@ -15,7 +15,7 @@ public class DisableEvent implements Listener {
 		if (e.getPlugin() == Helpy.getPlugin() && Helpy.kickAll) {
 			final FileConfiguration c = Helpy.getPlugin().getConfig();
 			if (!c.isSet("Settings.DisableEvent.KickMessage")) {
-				c.set("Settings.DisableEvent.KickMessage", "You were §ckicked§8, §7since the §6server §7was §4stopped§8.");
+				c.set("Settings.DisableEvent.KickMessage", "§7You were §ckicked§8, §7since the §6server §7was §4stopped§8.");
 				Helpy.getPlugin().saveConfig();
 			}
 			for (final Player ap : Bukkit.getOnlinePlayers()) {

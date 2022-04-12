@@ -8,6 +8,7 @@ import de.tdf.helpy.commands.utils.*;
 import de.tdf.helpy.listener.Entities.NonPlayer.CreeperActivateCreeper;
 import de.tdf.helpy.listener.Entities.NonPlayer.CreeperExplode;
 import de.tdf.helpy.listener.Entities.Player.*;
+import de.tdf.helpy.methods.BroadcastLoop;
 import de.tdf.helpy.methods.lang.Eng;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -36,7 +37,8 @@ public final class Helpy extends JavaPlugin {
 
 	public static List<String> listeners = new ArrayList<>(
 			Arrays.asList("TreeCutDown", "Doors", "CreeperRemovePotion",
-					"CreeperActivateCreeper", "ClickGrowedSeed"));
+					"CreeperActivateCreeper", "ClickGrowedSeed")),
+			broadcasts = new ArrayList<>(Arrays.asList("Example Broadcast", "Another Example broadcast", "continue this list!"));
 
 
 	public void onEnable() {
@@ -123,6 +125,18 @@ public final class Helpy extends JavaPlugin {
 			if (w == null)
 				System.out.println(Eng.PRE + "§cPlease check the spawn's location, the world may not have been found!");
 		}
+
+		if (!con.isSet("broadcast.broadcasts") || con.getStringList("broadcast.broadcasts").isEmpty())
+			con.set("broadcast.broadcasts", broadcasts);
+		broadcasts = con.getStringList("broadcast.broadcasts");
+		if (!con.isSet("broadcast.inOrder"))
+			con.set("broadcast.inOrder", true);
+		if (!con.isSet("broadcast.delayInSeconds"))
+			con.set("broadcast.delayInSeconds", 40);
+		if (!con.isSet("Broadcast.toggle"))
+			con.set("broadcast.toggle", true);
+		if (con.getBoolean("broadcast.toggle"))
+			BroadcastLoop.startLoop();
 		getPlugin().saveConfig();
 		Bukkit.getScheduler().runTaskLater(this, () -> preStartDone = true, 50L);
 	}
