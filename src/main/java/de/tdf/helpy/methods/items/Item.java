@@ -8,49 +8,43 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class Item {
+
 	public static int enchPlusOne(final ItemStack item, final Enchantment ench) {
 		final ItemMeta itemM = item.getItemMeta();
 		int level = 1;
 		if (itemM.hasEnchant(ench)) {
 			level = item.getEnchantmentLevel(ench) + 1;
-			if (item.getEnchantmentLevel(ench) > ench.getMaxLevel() + 1) {
+			if (item.getEnchantmentLevel(ench) > ench.getMaxLevel() + 1)
 				level = 99;
-			}
 		}
 		item.setItemMeta(itemM);
 		return level;
 	}
 
 	public static void singleAdds(final ItemStack item, final Inventory inv, final int amount) {
-		for (int times = 0; times < amount; ++times) {
+		for (int times = 0; times < amount; ++times)
 			inv.addItem(item);
-		}
 	}
 
 	public static int getItemAmount(final Material mat, final Inventory inv) {
 		final Inventory in = inv;
 		int gesMat = 0;
-		for (int t = 0; t < in.getSize(); ++t) {
-			if (in.getItem(t) != null && in.getItem(t).getType() == mat) {
+		for (int t = 0; t < in.getSize(); ++t)
+			if (in.getItem(t) != null && in.getItem(t).getType() == mat)
 				gesMat += in.getItem(t).getAmount();
-			}
-		}
 		return gesMat;
 	}
 
 	public static int getFreeSlots(final Inventory i, final boolean checkArmor) {
 		int free = 0;
 		if (checkArmor) {
-			for (int t = 0; t < i.getSize(); ++t) {
+			for (int t = 0; t < i.getSize(); ++t)
 				if (i.getItem(t) == null)
 					++free;
-			}
-		} else {
-			for (int t = 0; t < i.getSize() - 5; ++t) {
+		} else
+			for (int t = 0; t < i.getSize() - 5; ++t)
 				if (i.getItem(t) == null)
 					++free;
-			}
-		}
 		return free;
 	}
 

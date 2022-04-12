@@ -24,13 +24,13 @@ public class Lore implements CommandExecutor
                             IB.lore(it, args);
                         }
                         else if (args[0].equalsIgnoreCase("add")) {
-                            IB.addLore(it, Arrays.asList(args), IB.getlore(it));
+                            IB.addLore(it, Arrays.asList(args), IB.getLore(it));
                         }
                         else {
                             if (args[0].equalsIgnoreCase("remove")) {
                                 try {
                                     final int l = Integer.parseInt(args[1]);
-                                    final List<String> s = IB.getlore(it);
+                                    final List<String> s = IB.getLore(it);
                                     IB.lore(it, s.remove(l));
                                     break Label_0206;
                                 }

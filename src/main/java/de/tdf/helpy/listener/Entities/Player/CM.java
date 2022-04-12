@@ -36,9 +36,8 @@ public class CM implements Listener {
 	@EventHandler
 	public void cmPreJoin(final AsyncPlayerPreLoginEvent e) {
 		final OfflinePlayer p = Bukkit.getOfflinePlayer(e.getUniqueId());
-		if (!Helpy.preStartDone) {
+		if (!Helpy.preStartDone)
 			e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Eng.PRE_JOIN_STARTING);
-		}
 		final FileConfiguration con = Helpy.getPlugin().getConfig();
 		if (!p.isOp() && !con.getBoolean("Maintenance.ignoreOp") && con.getBoolean("Maintenance.Toggled")) {
 			if (con.getBoolean("Maintenance.MaintenanceListEqualsWhitelist")) {

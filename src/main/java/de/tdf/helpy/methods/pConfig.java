@@ -1,19 +1,16 @@
 package de.tdf.helpy.methods;
 
-import java.util.Set;
-
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-
-import java.util.List;
-import java.io.IOException;
-
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
-
-import org.bukkit.configuration.file.YamlConfiguration;
+import java.io.IOException;
+import java.util.List;
+import java.util.Set;
 
 public class pConfig {
 
@@ -145,10 +142,30 @@ public class pConfig {
 		return this.config.getDouble(string);
 	}
 
+	public int getSafeInt(final String string) {
+		return config.isSet(string) ? config.getInt(string) : 0;
+	}
+
+	public void addTokens(int i) {
+		i += getTokens();
+		if (i < 0) i = 0;
+		this.config.set("Player.Stats.Tokens", i);
+	}
+
+	public void removeTokens(int i) {
+		i -= getTokens();
+		if (i < 0) i = 0;
+		this.config.set("Player.Stats.Tokens", i);
+	}
+
 	public void setTokens(double i) {
 		i = Math.round(i * 1000);
 		this.config.set("Player.Stats.Tokens", i / 1000);
 		this.savePCon();
+	}
+
+	public ItemStack getItemStack(final String s) {
+		return config.isSet(s) ? config.getItemStack(s) : new ItemStack(Material.AIR);
 	}
 
 	public void savePCon() {

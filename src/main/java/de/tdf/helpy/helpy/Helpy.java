@@ -11,9 +11,8 @@ import de.tdf.helpy.listener.Entities.Player.*;
 import de.tdf.helpy.methods.lang.Eng;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.InputStream;
@@ -42,23 +41,24 @@ public final class Helpy extends JavaPlugin {
 		helpy = this;
 		VERSION = this.getVersion();
 		FileConfiguration con = getConfig();
-		Bukkit.getPluginManager().registerEvents(new CM(), this);
-		Bukkit.getPluginManager().registerEvents(new InvSpeed(), this);
-		Bukkit.getPluginManager().registerEvents(new DisableEvent(), this);
+		PluginManager pm = Bukkit.getPluginManager();
+		pm.registerEvents(new CM(), this);
+		pm.registerEvents(new InvSpeed(), this);
+		pm.registerEvents(new DisableEvent(), this);
 		if (!getPlugin().getConfig().isSet("cStrings.Prefix"))
 			getPlugin().getConfig().set("cStrings.Prefix", "§b§oHelpy§8: §7");
 		Eng.PRE = getPlugin().getConfig().getString("cStrings.Prefix").replaceAll(";", ":");
 		if (con.isSet("override.listeners")) {
 			if (con.getBoolean("override.listeners.TreeCutDown"))
-				Bukkit.getPluginManager().registerEvents(new TreeCutDown(), this);
+				pm.registerEvents(new TreeCutDown(), this);
 			if (con.getBoolean("override.listeners.Doors"))
-				Bukkit.getPluginManager().registerEvents(new Doors(), this);
+				pm.registerEvents(new Doors(), this);
 			if (con.getBoolean("override.listeners.CreeperRemovePotion"))
-				Bukkit.getPluginManager().registerEvents(new CreeperExplode(), this);
+				pm.registerEvents(new CreeperExplode(), this);
 			if (con.getBoolean("override.listeners.CreeperActivateCreeper"))
-				Bukkit.getPluginManager().registerEvents(new CreeperActivateCreeper(), this);
+				pm.registerEvents(new CreeperActivateCreeper(), this);
 			if (con.getBoolean("override.listeners.ClickGrowedSeed"))
-				Bukkit.getPluginManager().registerEvents(new ClickGrowed(), this);
+				pm.registerEvents(new ClickGrowed(), this);
 		} else {
 			for (String s : listeners)
 				con.set("override.listeners." + s, true);
@@ -116,6 +116,7 @@ public final class Helpy extends JavaPlugin {
 		if (!con.isSet("Settings.CustomQuitMessage"))
 			con.set("Settings.CustomQuitMessage", false);
 		getPlugin().saveConfig();
+		Bukkit.getScheduler().runTaskLater(this, () -> preStartDone = true, 50L);
 	}
 
 	public synchronized String getVersion() {
