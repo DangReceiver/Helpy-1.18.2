@@ -1,0 +1,46 @@
+name: Helpy
+version: '${project.version}'
+main: de.tdf.helpy.helpy.Helpy
+api-version: 1.16
+authors: [ TearsDontFall ]
+description: A multifunctional use plugin to ease your day in Minecraft.
+
+commands:
+  gm:
+    description: change your gamemode.
+  day:
+    description: set the time to day and kill entities.
+  health:
+    description: change your max health.
+  hheal:
+    description: an override for an easy heal command.
+  Invsee:
+    description: take a look at other players inventories.
+  ClearChat:
+    description: Clear the chat.
+  Ench:
+    description: Enchant on higher and deprecrated levels.
+  God:
+    description: Disable all possible damage taking.
+  Speed:
+    description: Set custom basic speed levels.
+  HelpyHelp:
+    description: Gives you basic server information.
+  Fly:
+    description: Toggle your flight mode.
+  ArrowsInBody:
+    description: set the arrows in your body to any value.
+  Spawn:
+    description: Go back to the Server Spawn.
+  TpExact:
+    description: teleport yourself to the middle of the block.
+  Broadcast:
+    description: Custom-Broadcast messages.
+  Lore:
+    description: Change, set, remove, add lines of an items lore.
+  Hunger:
+    description: Manage your hunger and saturation level.
+  EcClear:
+    description: Clear someone's, or your own Ender Chest.
+  Maintenance:
+    description: Set, and fully customise your own Maintenance system with a vanilla Minecraft Whitelist implementation.
