@@ -3,7 +3,6 @@ package de.tdf.helpy.methods.items;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import de.tdf.helpy.methods.OldpCon;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.meta.ItemMeta;

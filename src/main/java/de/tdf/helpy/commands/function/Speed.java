@@ -1,16 +1,16 @@
-package de.tdf.helpy.commands.control.personal;
+package de.tdf.helpy.commands.function;
 
-import org.bukkit.inventory.Inventory;
-import de.tdf.helpy.methods.lang.Eng;
 import de.tdf.helpy.methods.items.IB;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.Material;
-import org.bukkit.inventory.InventoryHolder;
+import de.tdf.helpy.methods.lang.Eng;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
 
 public class Speed implements CommandExecutor
 {

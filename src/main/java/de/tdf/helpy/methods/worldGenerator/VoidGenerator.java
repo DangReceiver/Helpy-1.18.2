@@ -1,4 +1,4 @@
-package de.tdf.helpy.methods.generator.world;
+package de.tdf.helpy.methods.worldGenerator;
 
 import java.util.Random;
 import org.bukkit.World;

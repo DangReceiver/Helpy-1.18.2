@@ -2,25 +2,22 @@
 // Decompiled by Procyon v0.5.36
 // 
 
-package de.tdf.helpy.commands.control.personal;
+package de.tdf.helpy.commands.utils;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Collection;
-import org.bukkit.util.StringUtil;
-import java.util.ArrayList;
+import de.tdf.helpy.helpy.Helpy;
+import de.tdf.helpy.methods.lang.Eng;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemFlag;
-import de.tdf.helpy.methods.lang.Eng;
-import de.tdf.helpy.helpy.Helpy;
-import org.bukkit.entity.Player;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import java.util.List;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.command.CommandExecutor;
+import org.bukkit.util.StringUtil;
+
+import java.util.*;
 
 public class Ench implements CommandExecutor, TabCompleter
 {

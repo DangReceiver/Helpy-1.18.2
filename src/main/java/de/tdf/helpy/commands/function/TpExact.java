@@ -1,11 +1,11 @@
-package de.tdf.helpy.commands.control.personal;
+package de.tdf.helpy.commands.function;
 
-import org.bukkit.Location;
 import de.tdf.helpy.methods.lang.Eng;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.LivingEntity;
 
 public class TpExact implements CommandExecutor
 {

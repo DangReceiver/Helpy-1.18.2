@@ -1,11 +1,11 @@
-package de.tdf.helpy.commands.control.publ;
+package de.tdf.helpy.commands.utils;
 
 import de.tdf.helpy.methods.lang.Eng;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class ClearChat implements CommandExecutor
 {

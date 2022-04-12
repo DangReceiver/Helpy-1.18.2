@@ -1,16 +1,14 @@
-package de.tdf.helpy.commands.control.personal;
+package de.tdf.helpy.commands.function;
 
-import org.bukkit.plugin.Plugin;
 import de.tdf.helpy.helpy.Helpy;
-import org.bukkit.Bukkit;
 import de.tdf.helpy.methods.Other;
 import de.tdf.helpy.methods.lang.Eng;
-import org.bukkit.OfflinePlayer;
 import de.tdf.helpy.methods.pConfig;
-import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class EcClear implements CommandExecutor
 {
@@ -18,7 +16,7 @@ public class EcClear implements CommandExecutor
         if (sen instanceof Player) {
             if (sen.hasPermission("Helpy.clearEc")) {
                 final Player p = (Player)sen;
-                final pConfig pc = pConfig.loadConfig((OfflinePlayer)p, "Helpy");
+                final pConfig pc = pConfig.loadConfig(p, "Helpy");
                 if (args.length == 0) {
                     p.sendMessage(Eng.CMD_ECCLEAR_CONFIRM_SELF);
                     p.sendMessage(Eng.CMD_ECCLEAR_TYPE_TO_CONFIRM);

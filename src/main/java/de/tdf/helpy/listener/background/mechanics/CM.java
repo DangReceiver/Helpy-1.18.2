@@ -1,13 +1,10 @@
 package de.tdf.helpy.listener.background.mechanics;
 
 import org.bukkit.entity.Player;
-import de.tdf.helpy.commands.control.personal.Fly;
-import de.tdf.helpy.commands.control.personal.God;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.event.Event;
 import de.tdf.helpy.methods.events.HelpyPreConnectionEvent;
-import de.tdf.helpy.commands.control.publ.Maintenance;
 import org.bukkit.Bukkit;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.EventHandler;

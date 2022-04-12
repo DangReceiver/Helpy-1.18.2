@@ -1,15 +1,15 @@
-package de.tdf.helpy.commands.control.publ;
+package de.tdf.helpy.commands.function;
 
-import org.bukkit.World;
-import de.tdf.helpy.methods.lang.Eng;
-import org.bukkit.entity.EntityType;
 import de.tdf.helpy.methods.Other;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import de.tdf.helpy.methods.lang.Eng;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 
 public class Day implements CommandExecutor
 {

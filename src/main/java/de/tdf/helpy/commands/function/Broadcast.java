@@ -1,12 +1,11 @@
-package de.tdf.helpy.commands.control.publ;
+package de.tdf.helpy.commands.function;
 
-import java.util.Iterator;
 import de.tdf.helpy.methods.lang.Eng;
-import org.bukkit.entity.Player;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class Broadcast implements CommandExecutor
 {

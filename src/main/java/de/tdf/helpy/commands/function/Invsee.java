@@ -1,13 +1,13 @@
-package de.tdf.helpy.commands.control.personal;
+package de.tdf.helpy.commands.function;
 
-import org.bukkit.inventory.Inventory;
-import org.bukkit.OfflinePlayer;
 import de.tdf.helpy.methods.lang.Eng;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 public class Invsee implements CommandExecutor
 {

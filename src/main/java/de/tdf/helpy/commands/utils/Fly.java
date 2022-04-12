@@ -1,14 +1,15 @@
-package de.tdf.helpy.commands.control.personal;
+package de.tdf.helpy.commands.utils;
+
+import de.tdf.helpy.helpy.Helpy;
+import de.tdf.helpy.methods.lang.Eng;
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import org.bukkit.Bukkit;
-import de.tdf.helpy.methods.lang.Eng;
-import de.tdf.helpy.helpy.Helpy;
-import org.bukkit.entity.Player;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import java.util.List;
-import org.bukkit.command.CommandExecutor;
 
 public class Fly implements CommandExecutor
 {

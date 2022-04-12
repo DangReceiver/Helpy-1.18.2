@@ -1,21 +1,5 @@
 package de.tdf.helpy.helpy;
 
-import de.tdf.helpy.commands.control.personal.ArrowsInBody;
-import de.tdf.helpy.commands.control.personal.EcClear;
-import de.tdf.helpy.commands.control.personal.Ench;
-import de.tdf.helpy.commands.control.personal.Fly;
-import de.tdf.helpy.commands.control.personal.Gm;
-import de.tdf.helpy.commands.control.personal.God;
-import de.tdf.helpy.commands.control.personal.Heal;
-import de.tdf.helpy.commands.control.personal.Health;
-import de.tdf.helpy.commands.control.personal.Invsee;
-import de.tdf.helpy.commands.control.personal.Lore;
-import de.tdf.helpy.commands.control.personal.Speed;
-import de.tdf.helpy.commands.control.personal.TpExact;
-import de.tdf.helpy.commands.control.publ.Broadcast;
-import de.tdf.helpy.commands.control.publ.ClearChat;
-import de.tdf.helpy.commands.control.publ.Day;
-import de.tdf.helpy.commands.control.publ.Maintenance;
 import de.tdf.helpy.commands.ffa.HelpyHelp;
 import de.tdf.helpy.commands.ffa.Hunger;
 import de.tdf.helpy.commands.ffa.Spawn;

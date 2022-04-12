@@ -1,18 +1,19 @@
-package de.tdf.helpy.commands.control.publ;
+package de.tdf.helpy.commands.function;
 
-import java.util.Arrays;
-import java.util.List;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.file.FileConfiguration;
-import java.util.ArrayList;
-import org.bukkit.entity.Player;
-import org.bukkit.Sound;
-import org.bukkit.Bukkit;
 import de.tdf.helpy.helpy.Helpy;
 import de.tdf.helpy.methods.lang.Eng;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Maintenance implements CommandExecutor
 {
