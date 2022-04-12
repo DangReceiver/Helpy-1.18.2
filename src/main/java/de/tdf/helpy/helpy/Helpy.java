@@ -10,7 +10,9 @@ import de.tdf.helpy.listener.Entities.NonPlayer.CreeperExplode;
 import de.tdf.helpy.listener.Entities.Player.*;
 import de.tdf.helpy.methods.lang.Eng;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,7 +32,7 @@ public final class Helpy extends JavaPlugin {
 
 	public static boolean preStartDone = false, stable = true, growedPerm = false;
 
-	public static boolean grownExp = false, kickAll = true;
+	public static boolean grownExp = false, kickAll = true, spawmPermission = false;
 
 	public static List<String> listeners = new ArrayList<>(
 			Arrays.asList("TreeCutDown", "Doors", "CreeperRemovePotion",
@@ -59,14 +61,9 @@ public final class Helpy extends JavaPlugin {
 				pm.registerEvents(new CreeperActivateCreeper(), this);
 			if (con.getBoolean("override.listeners.ClickGrowedSeed"))
 				pm.registerEvents(new ClickGrowed(), this);
-		} else {
+		} else
 			for (String s : listeners)
 				con.set("override.listeners." + s, true);
-			con.set("override.World.defaultWorld", "world");
-			con.set("override.World.spawnWlWorld", false);
-			con.set("override.World.spawnWlWorlds", Arrays.asList(new String[]{"world", "FarmCountrySpawn"}));
-			System.out.println("\n " + Eng.PRE + "All modules have been enabled, since they was no config.yml override.\n ");
-		}
 		getCommand("gm").setExecutor(new Gm());
 		getCommand("Maintenance").setExecutor(new Maintenance());
 		getCommand("Day").setExecutor(new Day());
@@ -115,6 +112,17 @@ public final class Helpy extends JavaPlugin {
 			con.set("Settings.CustomJoinMessage", false);
 		if (!con.isSet("Settings.CustomQuitMessage"))
 			con.set("Settings.CustomQuitMessage", false);
+		if (!con.isSet("Settings.Spawn.Permission"))
+			con.set("Settings.Spawn.Permission", false);
+		if (!con.isSet("Settings.Spawn.Title"))
+			con.set("Settings.Spawn.Title", true);
+		if (!con.isSet("Settings.Spawn.Location")) {
+			World w = Bukkit.getWorld("world");
+			if (w == null) w = Bukkit.getWorld("spawn");
+			con.set("Settings.Spawn.Permission", new Location(w, 0, 64.01, 0));
+			if (w == null)
+				System.out.println(Eng.PRE + "§cPlease check the spawn's location, the world may not have been found!");
+		}
 		getPlugin().saveConfig();
 		Bukkit.getScheduler().runTaskLater(this, () -> preStartDone = true, 50L);
 	}

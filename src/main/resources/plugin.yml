@@ -3,7 +3,7 @@ version: '${project.version}'
 main: de.tdf.helpy.helpy.Helpy
 api-version: 1.16
 authors: [ TearsDontFall ]
-description: A multifunctional use plugin to ease your day in Minecraft.
+description: A multifunctional, useful plugin to ease your day in Minecraft.
 
 commands:
   gm:
@@ -12,7 +12,7 @@ commands:
     description: set the time to day and kill entities.
   health:
     description: change your max health.
-  hheal:
+  heal:
     description: an override for an easy heal command.
   Invsee:
     description: take a look at other players inventories.
