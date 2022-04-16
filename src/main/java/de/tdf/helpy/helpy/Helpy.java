@@ -133,8 +133,8 @@ public final class Helpy extends JavaPlugin {
 		if (!con.isSet("broadcast.inOrder"))
 			con.set("broadcast.inOrder", true);
 		if (!con.isSet("broadcast.delayInSeconds"))
-			con.set("broadcast.delayInSeconds", 40);
-		if (!con.isSet("Broadcast.toggle"))
+			con.set("broadcast.delayInSeconds", 60);
+		if (!con.isSet("broadcast.toggle"))
 			con.set("broadcast.toggle", true);
 		if (!con.isSet("broadcast.excludeConsole"))
 			con.set("broadcast.excludeConsole", false);

@@ -102,7 +102,7 @@ public class Other {
     }
 
     public static void actionBar(final Player p, final String type, final String msg, final float vol, final float pit) {
-        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, (BaseComponent) new TextComponent(Eng.PRE + msg));
+        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Eng.PRE + msg));
         if (type.equalsIgnoreCase("neutral")) {
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, vol, pit);
         } else if (type.equalsIgnoreCase("succes")) {
