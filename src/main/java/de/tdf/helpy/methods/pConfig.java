@@ -24,7 +24,7 @@ public class pConfig {
 	}
 
 	public YamlConfiguration getConfig() {
-		return this.config;
+		return config;
 	}
 
 	public File getFile() {
@@ -49,14 +49,13 @@ public class pConfig {
 		if (!file.exists()) {
 			try {
 				if (!file.exists()) {
-					System.out.println("[Helpy] There was an error creating the pConfig for the player " + p.getName() + " \n double check their config and settings to ensure this is not an error. [0]");
-					final File folder = new File("plugins/" + str + "/players");
-					folder.createNewFile();
+					Other.createFolder("plugins/" + str + "/players");
 					System.out.println("[Helpy] In order to fix that, the folder ''players'' was automatically created.");
 				}
 				file.createNewFile();
 			} catch (IOException e) {
-				System.out.println("[Helpy] There was an error creating the pConfig for the player " + p.getName() + " \n double check their config and settings to ensure this is not an error. [1]");
+				System.out.println("[Helpy] There was an error creating the pConfig for the player "
+						+ p.getName() + " \n double check their config and settings to ensure this is not an error. [0]");
 			}
 		}
 		return new pConfig(p, str);
@@ -170,16 +169,17 @@ public class pConfig {
 
 	public void savePCon() {
 		try {
-			this.config.save(this.file);
+			config.save(this.file);
 		} catch (IOException e) {
-			System.out.println("[Helpy] There was an error saving the pConfig for the player " + this.config.getName() + " \n check their config and settings to ensure this is not an error. [2]");
+			System.out.println("[Helpy] There was an error saving the pConfig for the player "
+					+ config.getName() + " \n check their config and settings to ensure this is not an error. [1]");
 		}
 	}
 
 	public void savePConErrorFree() {
 		try {
 			this.config.save(this.file);
-		} catch (IOException ex) {
+		} catch (IOException ignored) {
 		}
 	}
 }
