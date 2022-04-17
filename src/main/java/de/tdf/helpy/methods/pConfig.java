@@ -48,10 +48,8 @@ public class pConfig {
 		final File file = new File("plugins/" + str + "/players/" + uuid + ".yml");
 		if (!file.exists()) {
 			try {
-				if (!file.exists()) {
-					Other.createFolder("plugins/" + str + "/players");
-					System.out.println("[Helpy] In order to fix that, the folder ''players'' was automatically created.");
-				}
+				Other.createFolder("plugins/" + str + "/players");
+				System.out.println("[Helpy] In order to fix that, the folder ''players'' was automatically created.");
 				file.createNewFile();
 			} catch (IOException e) {
 				System.out.println("[Helpy] There was an error creating the pConfig for the player "
