@@ -140,12 +140,10 @@ public class Other {
 			path = "plugins/Helpy/players";
 		File f1 = new File(path);
 		if (f1.isDirectory()) {
-			System.out.println("The folder already exists!");
+			System.out.println("The folder already exists.");
 		}
-		if (f1.mkdir())
-			System.out.println("The folder was created successfully!");
-		else
-			System.out.println("The folder could not be created!");
+		if (!f1.mkdir())
+			System.out.println("The folder could not be created.");
 	}
 
 	public static boolean isMonster(final Entity e) {
