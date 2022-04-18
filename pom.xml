@@ -6,7 +6,7 @@
 
     <groupId>de.tdf</groupId>
     <artifactId>Helpy</artifactId>
-    <version>0.1.80</version>
+    <version>0.1.81</version>
     <packaging>jar</packaging>
 
     <name>Helpy</name>
