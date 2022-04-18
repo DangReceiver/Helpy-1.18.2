@@ -135,15 +135,19 @@ public class Other {
 		return sdf.format(l);
 	}
 
-	public static void createFolder(String path) {
+	public static boolean createFolder(String path) {
 		if (path == null)
 			path = "plugins/Helpy/players";
 		File f1 = new File(path);
-		if (f1.isDirectory()) {
+		if (f1.exists()) {
 			System.out.println("The folder already exists.");
+			return false;
 		}
-		if (!f1.mkdir())
+		if (!f1.mkdir()) {
 			System.out.println("The folder could not be created.");
+			return false;
+		}
+		return true;
 	}
 
 	public static boolean isMonster(final Entity e) {

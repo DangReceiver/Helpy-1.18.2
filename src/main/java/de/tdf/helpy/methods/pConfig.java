@@ -46,14 +46,19 @@ public class pConfig {
 	public static pConfig createConfig(final OfflinePlayer p, final String str) {
 		final String uuid = p.getUniqueId().toString();
 		final File file = new File("plugins/" + str + "/players/" + uuid + ".yml");
+
 		if (!file.exists()) {
 			try {
-				Other.createFolder("plugins/" + str + "/players");
-				System.out.println("[Helpy] In order to fix that, the folder ''players'' was automatically created.");
 				file.createNewFile();
 			} catch (IOException e) {
-				System.out.println("[Helpy] There was an error creating the pConfig for the player "
-						+ p.getName() + " \n double check their config and settings to ensure this is not an error. [0]");
+				if (!Other.createFolder("plugins/" + str + "/players")) {
+					try {
+						file.createNewFile();
+					} catch (IOException e1) {
+						System.out.println("[Helpy] There was an error creating the pConfig for the player "
+								+ p.getName() + " \n double check their config and settings to ensure this is not an error. [0]");
+					}
+				}
 			}
 		}
 		return new pConfig(p, str);
