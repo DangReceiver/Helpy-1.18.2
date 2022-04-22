@@ -86,6 +86,8 @@ public final class Helpy extends JavaPlugin {
 		getCommand("Spawn").setExecutor(new Spawn());
 		getCommand("Broadcast").setExecutor(new Broadcast());
 		getCommand("EcClear").setExecutor(new EcClear());
+		getCommand("CreateWorld").setExecutor(new CreateWorld());
+		getCommand("TpWorld").setExecutor(new TpWorld());
 		if (consumable == null)
 			Arrays.asList(Material.APPLE, Material.GOLDEN_APPLE, Material.ENCHANTED_GOLDEN_APPLE, Material.MUSHROOM_STEW,
 					Material.BREAD, Material.PORKCHOP, Material.COOKED_PORKCHOP, Material.COD, Material.SALMON, Material.CARROTS,
@@ -122,7 +124,7 @@ public final class Helpy extends JavaPlugin {
 		if (!con.isSet("Settings.Spawn.Location")) {
 			World w = Bukkit.getWorld("world");
 			if (w == null) w = Bukkit.getWorld("spawn");
-			con.set("Settings.Spawn.Permission", new Location(w, 0, 64.01, 0));
+			con.set("Settings.Spawn.Location", new Location(w, 0, 64.01, 0));
 			if (w == null)
 				System.out.println(Eng.PRE + "§cPlease check the spawn's location, the world may not have been found!");
 		}

@@ -22,7 +22,7 @@ public class Spawn implements CommandExecutor {
 					return false;
 				}
 			final FileConfiguration con = Helpy.getPlugin().getConfig();
-			Location s = (Location) con.get("Settings.Spawn.Permission");
+			Location s = (Location) con.get("Settings.Spawn.Location");
 			if (args.length == 0) {
 				if (s == null) {
 					p.sendMessage(Eng.PRE + "YOu could not be teleported, the spawn was not found.");

@@ -22,6 +22,7 @@ public class Eng implements Listener {
 			CMD_NOT_PLAYER = PRE + "This §9command §7is only §2available §7for §eplayers§8.",
 			CMD_ARGS_LENGHT = PRE + "You§8'§7ve used to §6many §8/ §cless §darguments§8.",
 			CMD_ARG_INVALID = PRE + "§cInvalid §dargument§8.",
+			CMD_INVALID_WORLD_NAME = PRE + "The chosen world name is invalid",
 			CMD_TARGET_NOT_EXI_SAFE = PRE + "The given §6player §cisn§8'§ct §aonline§8.",
 			CMD_TARGET_NOT_EXI_POSSIBLY = Eng.CMD_TARGET_NOT_EXI_SAFE.replace(".", "§8, §7") + "or §cdoesn§8'§ct §7exist§8.",
 			CMD_EVERYONE_HEALED = PRE + "§9Everyone §7was §dhealed§8.",

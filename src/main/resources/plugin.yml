@@ -44,3 +44,7 @@ commands:
     description: Clear someone's, or your own Ender Chest.
   Maintenance:
     description: Set, and fully customise your own Maintenance system with a vanilla Minecraft Whitelist implementation.
+  TpWorld:
+    description: Teleport to any worlds x/z 0 coordinated.
+  CreateWorld:
+    description: Create a new void world.
