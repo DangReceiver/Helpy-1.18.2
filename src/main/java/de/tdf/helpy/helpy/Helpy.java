@@ -10,10 +10,7 @@ import de.tdf.helpy.listener.Entities.NonPlayer.CreeperExplode;
 import de.tdf.helpy.listener.Entities.Player.*;
 import de.tdf.helpy.methods.BroadcastLoop;
 import de.tdf.helpy.methods.lang.Eng;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -45,7 +42,7 @@ public final class Helpy extends JavaPlugin {
 	public void onEnable() {
 		helpy = this;
 		VERSION = this.getVersion();
-		FileConfiguration con = getConfig();
+		FileConfiguration c = getConfig();
 		PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(new CM(), this);
 		pm.registerEvents(new InvSpeed(), this);
@@ -53,20 +50,20 @@ public final class Helpy extends JavaPlugin {
 		if (!getPlugin().getConfig().isSet("cStrings.Prefix"))
 			getPlugin().getConfig().set("cStrings.Prefix", "§b§oHelpy§8: §7");
 		Eng.PRE = getPlugin().getConfig().getString("cStrings.Prefix").replaceAll(";", ":");
-		if (con.isSet("override.listeners")) {
-			if (con.getBoolean("override.listeners.TreeCutDown"))
+		if (c.isSet("override.listeners")) {
+			if (c.getBoolean("override.listeners.TreeCutDown"))
 				pm.registerEvents(new TreeCutDown(), this);
-			if (con.getBoolean("override.listeners.Doors"))
+			if (c.getBoolean("override.listeners.Doors"))
 				pm.registerEvents(new Doors(), this);
-			if (con.getBoolean("override.listeners.CreeperRemovePotion"))
+			if (c.getBoolean("override.listeners.CreeperRemovePotion"))
 				pm.registerEvents(new CreeperExplode(), this);
-			if (con.getBoolean("override.listeners.CreeperActivateCreeper"))
+			if (c.getBoolean("override.listeners.CreeperActivateCreeper"))
 				pm.registerEvents(new CreeperActivateCreeper(), this);
-			if (con.getBoolean("override.listeners.ClickGrowedSeed"))
+			if (c.getBoolean("override.listeners.ClickGrowedSeed"))
 				pm.registerEvents(new ClickGrowed(), this);
 		} else
 			for (String s : listeners)
-				con.set("override.listeners." + s, true);
+				c.set("override.listeners." + s, true);
 		getCommand("gm").setExecutor(new Gm());
 		getCommand("Maintenance").setExecutor(new Maintenance());
 		getCommand("Day").setExecutor(new Day());
@@ -97,55 +94,63 @@ public final class Helpy extends JavaPlugin {
 					Material.POTATO, Material.BAKED_POTATO, Material.POISONOUS_POTATO, Material.PUMPKIN_PIE, Material.RABBIT,
 					Material.COOKED_RABBIT, Material.RABBIT_STEW, Material.MUTTON, Material.COOKED_MUTTON, Material.BEETROOT,
 					Material.BEETROOT_SOUP, Material.SWEET_BERRIES);
-		if (!con.isSet("Settings.GrowedClick.Permission"))
-			con.set("Settings.Permission.GrowedClick", false);
-		growedPerm = con.getBoolean("Settings.GrowedClick.Permission");
-		if (!con.isSet("Settings.grankXp.GrowedClick"))
-			con.set("Settings.grankXp.GrowedClick", false);
-		grownExp = con.getBoolean("Settings.grankXp.GrowedClick");
-		if (!con.isSet("Settings.Permission.DoubleDoors"))
-			con.set("Settings.Permission.DoubleDoors", false);
-		growedPerm = con.getBoolean("Settings.Permission.DoubleDoors");
-		if (!con.isSet("Settings.DisableEvent.KickAll"))
-			con.set("Settings.DisableEvent.KickAll", true);
-		kickAll = con.getBoolean("Settings.DisableEvent.KickAll");
-		if (!con.isSet("Settings.SilentJoin"))
-			con.set("Settings.SilentJoin", false);
-		if (!con.isSet("Settings.SilentQuit"))
-			con.set("Settings.SilentQuit", false);
-		if (!con.isSet("Settings.CustomJoinMessage"))
-			con.set("Settings.CustomJoinMessage", false);
-		if (!con.isSet("Settings.CustomQuitMessage"))
-			con.set("Settings.CustomQuitMessage", false);
-		if (!con.isSet("Settings.Spawn.Permission"))
-			con.set("Settings.Spawn.Permission", false);
-		if (!con.isSet("Settings.Spawn.Title"))
-			con.set("Settings.Spawn.Title", true);
-		if (!con.isSet("Settings.Spawn.Location")) {
+		if (!c.isSet("Settings.GrowedClick.Permission"))
+			c.set("Settings.Permission.GrowedClick", false);
+		growedPerm = c.getBoolean("Settings.GrowedClick.Permission");
+		if (!c.isSet("Settings.grankXp.GrowedClick"))
+			c.set("Settings.grankXp.GrowedClick", false);
+		grownExp = c.getBoolean("Settings.grankXp.GrowedClick");
+		if (!c.isSet("Settings.Permission.DoubleDoors"))
+			c.set("Settings.Permission.DoubleDoors", false);
+		growedPerm = c.getBoolean("Settings.Permission.DoubleDoors");
+		if (!c.isSet("Settings.DisableEvent.KickAll"))
+			c.set("Settings.DisableEvent.KickAll", true);
+		kickAll = c.getBoolean("Settings.DisableEvent.KickAll");
+		if (!c.isSet("Settings.SilentJoin"))
+			c.set("Settings.SilentJoin", false);
+		if (!c.isSet("Settings.SilentQuit"))
+			c.set("Settings.SilentQuit", false);
+		if (!c.isSet("Settings.CustomJoinMessage"))
+			c.set("Settings.CustomJoinMessage", false);
+		if (!c.isSet("Settings.CustomQuitMessage"))
+			c.set("Settings.CustomQuitMessage", false);
+		if (!c.isSet("Settings.Spawn.Permission"))
+			c.set("Settings.Spawn.Permission", false);
+		if (!c.isSet("Settings.Spawn.Title"))
+			c.set("Settings.Spawn.Title", true);
+		if (!c.isSet("Settings.Spawn.Location")) {
 			World w = Bukkit.getWorld("world");
 			if (w == null) w = Bukkit.getWorld("spawn");
-			con.set("Settings.Spawn.Location", new Location(w, 0, 64.01, 0));
+			c.set("Settings.Spawn.Location", new Location(w, 0, 64.01, 0));
 			if (w == null)
 				System.out.println(Eng.PRE + "§cPlease check the spawn's location, the world may not have been found!");
 		}
 
-		if (!con.isSet("broadcast.broadcasts") || con.getStringList("broadcast.broadcasts").isEmpty())
-			con.set("broadcast.broadcasts", broadcasts);
-		broadcasts = con.getStringList("broadcast.broadcasts");
-		if (!con.isSet("broadcast.inOrder"))
-			con.set("broadcast.inOrder", true);
-		if (!con.isSet("broadcast.delayInSeconds"))
-			con.set("broadcast.delayInSeconds", 60);
-		if (!con.isSet("broadcast.toggle"))
-			con.set("broadcast.toggle", true);
-		if (!con.isSet("broadcast.excludeConsole"))
-			con.set("broadcast.excludeConsole", false);
-		if (!con.isSet("broadcast.prefix"))
-			con.set("broadcast.prefix", Eng.PRE);
-		if (con.getBoolean("broadcast.toggle"))
+		if (!c.isSet("broadcast.broadcasts") || c.getStringList("broadcast.broadcasts").isEmpty())
+			c.set("broadcast.broadcasts", broadcasts);
+		broadcasts = c.getStringList("broadcast.broadcasts");
+		if (!c.isSet("broadcast.inOrder"))
+			c.set("broadcast.inOrder", true);
+		if (!c.isSet("broadcast.delayInSeconds"))
+			c.set("broadcast.delayInSeconds", 60);
+		if (!c.isSet("broadcast.toggle"))
+			c.set("broadcast.toggle", true);
+		if (!c.isSet("broadcast.excludeConsole"))
+			c.set("broadcast.excludeConsole", false);
+		if (!c.isSet("broadcast.prefix"))
+			c.set("broadcast.prefix", Eng.PRE);
+		if (c.getBoolean("broadcast.toggle"))
 			BroadcastLoop.startLoop();
 		getPlugin().saveConfig();
-		Bukkit.getScheduler().runTaskLater(this, () -> preStartDone = true, 50L);
+
+
+		for (String s : c.getStringList("Helpy.voidWorlds"))
+			if (Bukkit.getWorld(s) == null) {
+				new WorldCreator(s).createWorld();
+				Bukkit.getConsoleSender().sendMessage(String.format(Eng.LAODING_WORLD, s));
+			} else
+				Bukkit.getConsoleSender().sendMessage(String.format(Eng.WORLD_EXISTS, s));
+		Bukkit.getScheduler().runTaskLater(this, () -> preStartDone = true, 60L);
 	}
 
 	public synchronized String getVersion() {

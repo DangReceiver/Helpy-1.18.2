@@ -13,6 +13,8 @@ public class Eng implements Listener {
 	public static String PRE = Helpy.getPlugin().getConfig().getString("cStrings.Prefix");
 
 	public static String SPACE = " §0 ", UP_SPACE = " §0 \n §0 \n §0 ", LINE_SPACE = "§8§m§l------------------------",
+			WORLD_EXISTS = "The saved world %s is already loaded. No further action necessary.",
+			LAODING_WORLD = "The world %s was loaded.",
 			CHAT_CLEARED = PRE + "The §6chat §7was §3cleared§8.",
 			MECHANIC_SURVIVAL_MODE_TRUE = PRE + "Since the §aSurvival §2Mode §7is §aactivated §8(§6server sided§8) §7this §9command §cisn§8'§ct §eavailabe§8.",
 			PRE_JOIN_STARTING = PRE + "The §6server §7is still §3starting §8§l| |\n§7Please be §opatient §7and wait a §efew more seconds§8.",

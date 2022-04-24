@@ -7,7 +7,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+
+import java.util.List;
 
 public class CreateWorld implements CommandExecutor {
 
@@ -53,6 +56,11 @@ public class CreateWorld implements CommandExecutor {
 
 			p.sendMessage(Eng.PRE + "Starting creation of the world " + s + " with bedrock: " + b);
 			UseVoid.createVoidWorld(s, b);
+
+			FileConfiguration c = Helpy.getPlugin().getConfig();
+			List<String> vWorlds = c.getStringList("Helpy.voidWorlds");
+			vWorlds.add(s);
+			c.set("Helpy.voidWorlds", vWorlds);
 
 			final String wName = s;
 			checkCreationStatus(p, wName);
