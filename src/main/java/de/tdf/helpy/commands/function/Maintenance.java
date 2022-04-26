@@ -23,11 +23,11 @@ public class Maintenance implements CommandExecutor {
 			Eng.permissionShow(sen, "Helpy.Maintenance.use");
 			return true;
 		}
-		final FileConfiguration con = Helpy.getPlugin().getConfig();
+		final FileConfiguration con = Helpy.getHelpy().getConfig();
 		if (!con.isSet("Maintenance")) {
 			resetMaintenanceSettings(true);
 			System.out.println(" §0 \n §0 \n §0 " + Eng.PRE + "Maintenance basic settings were automatically set, make sure to double check them!" + " §0 \n §0 \n §0 ");
-			Helpy.getPlugin().saveConfig();
+			Helpy.getHelpy().saveConfig();
 		}
 		if (args.length == 0 || (args.length == 1 && args[0].equalsIgnoreCase("Toggle"))) {
 			if (con.getBoolean("Maintenance.Toggled")) {
@@ -35,7 +35,7 @@ public class Maintenance implements CommandExecutor {
 			} else {
 				con.set("Maintenance.Toggled", (Object) true);
 			}
-			Helpy.getPlugin().saveConfig();
+			Helpy.getHelpy().saveConfig();
 			Bukkit.broadcastMessage(Eng.CMD_MAINTENANCE_NOW + con.getBoolean("Maintenance.Toggled"));
 			final String[] s = Eng.CMD_MAINTENANCE_TITLE.split("°°");
 			Sound o = Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE;
@@ -73,7 +73,7 @@ public class Maintenance implements CommandExecutor {
 				}
 				sen.sendMessage(Eng.CMD_MAINTENANCE_LIST_FOOTER);
 			}
-			Helpy.getPlugin().saveConfig();
+			Helpy.getHelpy().saveConfig();
 		} else if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("remove") && args[0].equalsIgnoreCase("add")) {
 				Eng.argsUsage(sen, "/Maintenance <Toggle; ConnectLists; List; Misconnect; ConnectLists; remove; add; reset> [<name; boolean>]", true);
@@ -98,7 +98,7 @@ public class Maintenance implements CommandExecutor {
 				}
 				sen.sendMessage(Eng.CMD_ACTION_CONFIRMED);
 				con.set("Maintenance.TrustedPlayers", (Object) tp);
-				Helpy.getPlugin().saveConfig();
+				Helpy.getHelpy().saveConfig();
 			} else if (args[0].equalsIgnoreCase("reset") || args[0].equalsIgnoreCase("resetSettings")) {
 				final boolean msg = Boolean.parseBoolean(args[1]);
 				resetMaintenanceSettings(msg);
@@ -111,7 +111,7 @@ public class Maintenance implements CommandExecutor {
 	}
 
 	public static void tryJoin(final OfflinePlayer p, final String name, final boolean broadcast, final boolean sysOut) {
-		final FileConfiguration con = Helpy.getPlugin().getConfig();
+		final FileConfiguration con = Helpy.getHelpy().getConfig();
 		boolean trusted = false;
 		if (con.getBoolean("Maintenance.AnnounceMisconnect")) {
 			if (con.getBoolean("Maintenance.MaintenanceListEqualsWhitelist")) {
@@ -139,7 +139,7 @@ public class Maintenance implements CommandExecutor {
 	}
 
 	public static void resetMaintenanceSettings(final boolean resetMessages) {
-		final FileConfiguration con = Helpy.getPlugin().getConfig();
+		final FileConfiguration con = Helpy.getHelpy().getConfig();
 		if (resetMessages) {
 			con.set("Maintenance.Message", (Object) (Eng.PRE + "This §6server §7is §ocurrently §7under §3Maintenance §7break§8."));
 			con.set("Maintenance.TrustedMessage", (Object) (Eng.PRE + "This §6server §7is §ocurrently §7under §3Maintenance §7break§8."));
@@ -149,6 +149,6 @@ public class Maintenance implements CommandExecutor {
 		con.set("Maintenance.AnnounceMisconnect", (Object) true);
 		con.set("Maintenance.ignoreOp", (Object) false);
 		con.set("Maintenance.TrustedPlayers", (Object) Arrays.asList("tdf", "realtdf"));
-		Helpy.getPlugin().saveConfig();
+		Helpy.getHelpy().saveConfig();
 	}
 }

@@ -26,7 +26,7 @@ public class TreeCutDown implements Listener {
                     int eTimes = t;
                     d = (short) (d + 2);
                     if (e.getBlock().getLocation().add(0, (eTimes + 1), 0).getBlock().getType().equals(b.getType())) {
-                        Bukkit.getScheduler().runTaskLater((Plugin) Helpy.getPlugin(), () -> {
+                        Bukkit.getScheduler().runTaskLater((Plugin) Helpy.getHelpy(), () -> {
                             if (p.getInventory().getItemInMainHand().getType().toString().contains("_AXE")) {
                                 itemHand.setDurability((short) (itemHand.getDurability() + 1));
                                 if (itemHand.getType().getMaxDurability() > itemHand.getDurability()) {

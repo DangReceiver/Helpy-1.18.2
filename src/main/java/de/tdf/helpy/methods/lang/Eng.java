@@ -10,7 +10,7 @@ import org.bukkit.event.Listener;
 
 public class Eng implements Listener {
 
-	public static String PRE = Helpy.getPlugin().getConfig().getString("cStrings.Prefix");
+	public static String PRE = Helpy.getHelpy().getConfig().getString("cStrings.Prefix");
 
 	public static String SPACE = " §0 ", UP_SPACE = " §0 \n §0 \n §0 ", LINE_SPACE = "§8§m§l------------------------",
 			WORLD_EXISTS = "The saved world %s is already loaded. No further action necessary.",

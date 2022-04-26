@@ -20,7 +20,7 @@ public class CreeperActivateCreeper implements Listener {
 			final Vector vec = new Vector(0.0, 0.4, 0.0);
 			c.setVelocity(vec);
 			ev.setCancelled(true);
-			Bukkit.getScheduler().runTaskLater(Helpy.getPlugin(), c::explode, 10L);
+			Bukkit.getScheduler().runTaskLater(Helpy.getHelpy(), c::explode, 10L);
 		}
 	}
 }

@@ -16,7 +16,7 @@ public class BroadcastLoop {
 
 	public static void startLoop() {
 
-		FileConfiguration con = Helpy.getPlugin().getConfig();
+		FileConfiguration con = Helpy.getHelpy().getConfig();
 		long period = con.getLong("broadcast.delayInSeconds");
 		boolean order = con.getBoolean("broadcast.inOrder"),
 				playersOnly = con.isSet("broadcast.excludeConsole");
@@ -26,7 +26,7 @@ public class BroadcastLoop {
 
 		System.out.println(Eng.PRE + String.format("The broadcast loop was started. Set delay: %s", period));
 
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(Helpy.getPlugin(), () -> {
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(Helpy.getHelpy(), () -> {
 			if (order) {
 
 				broadcastType(bc.get(current), playersOnly);

@@ -1,6 +1,5 @@
 package de.tdf.helpy.listener.Entities.Player;
 
-import de.tdf.helpy.helpy.Helpy;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -11,13 +10,14 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Openable;
 import org.bukkit.block.data.type.Door;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import java.io.File;
 import java.util.logging.Level;
 
 public class Doors implements Listener {
@@ -35,8 +35,11 @@ public class Doors implements Listener {
 			return;
 		}
 		if (p.getGameMode() != GameMode.SPECTATOR) {
-			final FileConfiguration con = Helpy.getPlugin().getConfig();
-			if (con.getBoolean("Settings.Permission.DoorClick") && !p.hasPermission("nte.legende")) {
+			
+			File file = new File("plugins/Helpy/Settings.yml");
+			YamlConfiguration settings = YamlConfiguration.loadConfiguration(file);
+			
+			if (settings.getBoolean("Settings.Permission.DoorClick") && !p.hasPermission("nte.legende")) {
 				return;
 			}
 			if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {

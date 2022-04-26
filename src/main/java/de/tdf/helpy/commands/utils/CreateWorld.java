@@ -8,8 +8,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import java.io.File;
 import java.util.List;
 
 public class CreateWorld implements CommandExecutor {
@@ -57,10 +59,14 @@ public class CreateWorld implements CommandExecutor {
 			p.sendMessage(Eng.PRE + "Starting creation of the world " + s + " with bedrock: " + b);
 			UseVoid.createVoidWorld(s, b);
 
-			FileConfiguration c = Helpy.getPlugin().getConfig();
-			List<String> vWorlds = c.getStringList("Helpy.voidWorlds");
-			vWorlds.add(s);
-			c.set("Helpy.voidWorlds", vWorlds);
+			File file = new File("plugins/Helpy/Settings.yml");
+			YamlConfiguration settings = YamlConfiguration.loadConfiguration(file);
+
+			List<String> vWorlds = settings.getStringList("Helpy.voidWorlds");
+			if (!vWorlds.contains(s))
+				vWorlds.add(s);
+			settings.set("Helpy.voidWorlds", vWorlds);
+			Helpy.getHelpy().saveConfig();
 
 			final String wName = s;
 			checkCreationStatus(p, wName);
@@ -70,7 +76,7 @@ public class CreateWorld implements CommandExecutor {
 
 	public void checkCreationStatus(Player p, String s) {
 
-		Bukkit.getScheduler().runTaskLater(Helpy.getPlugin(), () -> {
+		Bukkit.getScheduler().runTaskLater(Helpy.getHelpy(), () -> {
 			if (Bukkit.getWorld(s) != null) {
 				p.sendMessage(Eng.PRE + "The world was created successfully!");
 			} else {

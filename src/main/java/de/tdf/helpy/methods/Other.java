@@ -114,7 +114,7 @@ public class Other {
 	}
 
 	public static void reTp(final Player p, final Location loc, final float delay, final Boolean forceSurvival, final boolean title) {
-		Bukkit.getScheduler().runTaskLater(Helpy.getPlugin(), () -> {
+		Bukkit.getScheduler().runTaskLater(Helpy.getHelpy(), () -> {
 			p.teleport(loc);
 			if (title) {
 				p.sendTitle(Eng.PRE, "§4§oTrapped", 1, 5, 2);

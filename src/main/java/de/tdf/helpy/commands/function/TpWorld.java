@@ -1,5 +1,6 @@
 package de.tdf.helpy.commands.function;
 
+import de.tdf.helpy.helpy.Helpy;
 import de.tdf.helpy.methods.lang.Eng;
 import de.tdf.helpy.methods.worldGenerator.UseVoid;
 import org.bukkit.Bukkit;
@@ -8,9 +9,16 @@ import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-public class TpWorld implements CommandExecutor {
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+public class TpWorld implements CommandExecutor, TabExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sen, Command cmd, String lab, String[] args) {
@@ -41,5 +49,12 @@ public class TpWorld implements CommandExecutor {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public List<String> onTabComplete(CommandSender sen, Command cmd, String lab, String[] args) {
+		File file = new File("plugins/Helpy/Settings.yml");
+		YamlConfiguration settings = YamlConfiguration.loadConfiguration(file);
+		return new ArrayList<>(settings.getStringList("Helpy.voidWorlds"));
 	}
 }

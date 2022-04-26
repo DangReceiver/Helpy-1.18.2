@@ -1,5 +1,6 @@
 package de.tdf.helpy.helpy;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import de.tdf.helpy.commands.ffa.HelpyHelp;
 import de.tdf.helpy.commands.ffa.Hunger;
 import de.tdf.helpy.commands.ffa.Spawn;
@@ -11,10 +12,18 @@ import de.tdf.helpy.listener.Entities.Player.*;
 import de.tdf.helpy.methods.BroadcastLoop;
 import de.tdf.helpy.methods.lang.Eng;
 import org.bukkit.*;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,8 +34,6 @@ public final class Helpy extends JavaPlugin {
 	private static Helpy helpy;
 
 	public static String VERSION = "";
-
-	public static List<Material> consumable = null;
 
 	public static boolean preStartDone = false, stable = true, growedPerm = false;
 
@@ -39,17 +46,37 @@ public final class Helpy extends JavaPlugin {
 					"continue this list!", "Keine Doppelpunkte verwenden!", "§aColor §6codes via Paragraphenzeichen"));
 
 
+	File file;
+	YamlConfiguration settings;
+
 	public void onEnable() {
 		helpy = this;
 		VERSION = this.getVersion();
-		FileConfiguration c = getConfig();
+
+		ConsoleCommandSender cs = Bukkit.getConsoleSender();
 		PluginManager pm = Bukkit.getPluginManager();
+
+		file = new File("plugins/Helpy/Settings.yml");
+		settings = YamlConfiguration.loadConfiguration(file);
+
+		if (!file.exists()) {
+			try {
+				file.createNewFile();
+				saveSettings(settings, file);
+			} catch (IOException ex) {
+				cs.sendMessage(Eng.PRE + "The Settings.yml could not be created!");
+			}
+		}
+
 		pm.registerEvents(new CM(), this);
 		pm.registerEvents(new InvSpeed(), this);
 		pm.registerEvents(new DisableEvent(), this);
-		if (!getPlugin().getConfig().isSet("cStrings.Prefix"))
-			getPlugin().getConfig().set("cStrings.Prefix", "§b§oHelpy§8: §7");
-		Eng.PRE = getPlugin().getConfig().getString("cStrings.Prefix").replaceAll(";", ":");
+
+		FileConfiguration c = getConfig();
+		if (!c.isSet("cStrings.Prefix"))
+			c.set("cStrings.Prefix", "§b§oHelpy§8: §7");
+		Eng.PRE = c.getString("cStrings.Prefix").replaceAll(";", ":");
+
 		if (c.isSet("override.listeners")) {
 			if (c.getBoolean("override.listeners.TreeCutDown"))
 				pm.registerEvents(new TreeCutDown(), this);
@@ -64,6 +91,7 @@ public final class Helpy extends JavaPlugin {
 		} else
 			for (String s : listeners)
 				c.set("override.listeners." + s, true);
+
 		getCommand("gm").setExecutor(new Gm());
 		getCommand("Maintenance").setExecutor(new Maintenance());
 		getCommand("Day").setExecutor(new Day());
@@ -80,51 +108,50 @@ public final class Helpy extends JavaPlugin {
 		getCommand("ArrowsInBody").setExecutor(new ArrowsInBody());
 		getCommand("Hunger").setExecutor(new Hunger());
 		getCommand("TpExact").setExecutor(new TpExact());
-		getCommand("Spawn").setExecutor(new Spawn());
 		getCommand("Broadcast").setExecutor(new Broadcast());
 		getCommand("EcClear").setExecutor(new EcClear());
 		getCommand("CreateWorld").setExecutor(new CreateWorld());
 		getCommand("TpWorld").setExecutor(new TpWorld());
-		if (consumable == null)
-			Arrays.asList(Material.APPLE, Material.GOLDEN_APPLE, Material.ENCHANTED_GOLDEN_APPLE, Material.MUSHROOM_STEW,
-					Material.BREAD, Material.PORKCHOP, Material.COOKED_PORKCHOP, Material.COD, Material.SALMON, Material.CARROTS,
-					Material.POTATOES, Material.TROPICAL_FISH, Material.PUFFERFISH, Material.COOKED_COD, Material.COOKED_SALMON,
-					Material.COOKIE, Material.MELON_SLICE, Material.DRIED_KELP, Material.BEEF, Material.COOKED_CHICKEN,
-					Material.COOKED_BEEF, Material.CHICKEN, Material.ROTTEN_FLESH, Material.SPIDER_EYE, Material.CARROT,
-					Material.POTATO, Material.BAKED_POTATO, Material.POISONOUS_POTATO, Material.PUMPKIN_PIE, Material.RABBIT,
-					Material.COOKED_RABBIT, Material.RABBIT_STEW, Material.MUTTON, Material.COOKED_MUTTON, Material.BEETROOT,
-					Material.BEETROOT_SOUP, Material.SWEET_BERRIES);
-		if (!c.isSet("Settings.GrowedClick.Permission"))
-			c.set("Settings.Permission.GrowedClick", false);
-		growedPerm = c.getBoolean("Settings.GrowedClick.Permission");
-		if (!c.isSet("Settings.grankXp.GrowedClick"))
-			c.set("Settings.grankXp.GrowedClick", false);
-		grownExp = c.getBoolean("Settings.grankXp.GrowedClick");
-		if (!c.isSet("Settings.Permission.DoubleDoors"))
-			c.set("Settings.Permission.DoubleDoors", false);
-		growedPerm = c.getBoolean("Settings.Permission.DoubleDoors");
-		if (!c.isSet("Settings.DisableEvent.KickAll"))
-			c.set("Settings.DisableEvent.KickAll", true);
-		kickAll = c.getBoolean("Settings.DisableEvent.KickAll");
-		if (!c.isSet("Settings.SilentJoin"))
-			c.set("Settings.SilentJoin", false);
-		if (!c.isSet("Settings.SilentQuit"))
-			c.set("Settings.SilentQuit", false);
-		if (!c.isSet("Settings.CustomJoinMessage"))
-			c.set("Settings.CustomJoinMessage", false);
-		if (!c.isSet("Settings.CustomQuitMessage"))
-			c.set("Settings.CustomQuitMessage", false);
-		if (!c.isSet("Settings.Spawn.Permission"))
-			c.set("Settings.Spawn.Permission", false);
-		if (!c.isSet("Settings.Spawn.Title"))
-			c.set("Settings.Spawn.Title", true);
-		if (!c.isSet("Settings.Spawn.Location")) {
-			World w = Bukkit.getWorld("world");
-			if (w == null) w = Bukkit.getWorld("spawn");
-			c.set("Settings.Spawn.Location", new Location(w, 0, 64.01, 0));
-			if (w == null)
-				System.out.println(Eng.PRE + "§cPlease check the spawn's location, the world may not have been found!");
-		}
+
+		Bukkit.getScheduler().runTaskLater(this, () -> {
+			for (String s : c.getStringList("Helpy.voidWorlds"))
+				if (Bukkit.getWorld(s) == null) {
+					new WorldCreator(s).createWorld();
+					cs.sendMessage(Eng.PRE + String.format(Eng.LAODING_WORLD, s));
+				} else
+					cs.sendMessage(Eng.PRE + String.format(Eng.WORLD_EXISTS, s));
+
+			if (!settings.isSet("Settings.GrowedClick.Permission"))
+				settings.set("Settings.Permission.GrowedClick", false);
+			growedPerm = settings.getBoolean("Settings.GrowedClick.Permission");
+			if (!settings.isSet("Settings.grankXp.GrowedClick"))
+				settings.set("Settings.grankXp.GrowedClick", false);
+			grownExp = settings.getBoolean("Settings.grankXp.GrowedClick");
+			if (!settings.isSet("Settings.Permission.DoubleDoors"))
+				settings.set("Settings.Permission.DoubleDoors", false);
+			growedPerm = settings.getBoolean("Settings.Permission.DoubleDoors");
+			if (!settings.isSet("Settings.DisableEvent.KickAll"))
+				settings.set("Settings.DisableEvent.KickAll", true);
+			kickAll = settings.getBoolean("Settings.DisableEvent.KickAll");
+
+			if (!settings.isSet("Settings.SilentJoin"))
+				settings.set("Settings.SilentJoin", false);
+			if (!settings.isSet("Settings.SilentQuit"))
+				settings.set("Settings.SilentQuit", false);
+			if (!settings.isSet("Settings.CustomJoinMessage"))
+				settings.set("Settings.CustomJoinMessage", false);
+			if (!settings.isSet("Settings.CustomQuitMessage"))
+				settings.set("Settings.CustomQuitMessage", false);
+
+			if (!settings.isSet("Settings.Spawn.Location"))
+				cs.sendMessage(Eng.PRE + "§cThe spawn's location is unset!");
+			if (!settings.isSet("Settings.Spawn.Permission"))
+				settings.set("Settings.Spawn.Permission", false);
+			if (!settings.isSet("Settings.Spawn.Title"))
+				settings.set("Settings.Spawn.Title", true);
+			saveSettings(settings, file);
+		}, 1);
+
 
 		if (!c.isSet("broadcast.broadcasts") || c.getStringList("broadcast.broadcasts").isEmpty())
 			c.set("broadcast.broadcasts", broadcasts);
@@ -141,15 +168,10 @@ public final class Helpy extends JavaPlugin {
 			c.set("broadcast.prefix", Eng.PRE);
 		if (c.getBoolean("broadcast.toggle"))
 			BroadcastLoop.startLoop();
-		getPlugin().saveConfig();
+		saveConfig();
 
+		getCommand("Spawn").setExecutor(new Spawn());
 
-		for (String s : c.getStringList("Helpy.voidWorlds"))
-			if (Bukkit.getWorld(s) == null) {
-				new WorldCreator(s).createWorld();
-				Bukkit.getConsoleSender().sendMessage(String.format(Eng.LAODING_WORLD, s));
-			} else
-				Bukkit.getConsoleSender().sendMessage(String.format(Eng.WORLD_EXISTS, s));
 		Bukkit.getScheduler().runTaskLater(this, () -> preStartDone = true, 60L);
 	}
 
@@ -175,7 +197,15 @@ public final class Helpy extends JavaPlugin {
 		return v;
 	}
 
-	public static Helpy getPlugin() {
+	public static void saveSettings(YamlConfiguration settings, File file) {
+		try {
+			settings.save(file);
+		} catch (IOException ex) {
+			Bukkit.getConsoleSender().sendMessage(Eng.PRE + "The settings file could not be saved.");
+		}
+	}
+
+	public static Helpy getHelpy() {
 		return helpy;
 	}
 }

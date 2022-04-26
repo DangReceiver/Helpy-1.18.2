@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 public class EcClear implements CommandExecutor {
 
-    @Override
+	@Override
 	public boolean onCommand(final CommandSender sen, final Command cmd, final String lab, final String[] args) {
 		if (sen instanceof Player) {
 			if (sen.hasPermission("Helpy.clearEc")) {
@@ -28,7 +28,13 @@ public class EcClear implements CommandExecutor {
 						Eng.argsUsage(sen, "/EcClear <Name; Confirm>", true);
 						return true;
 					}
+
 					final Player t = (Player) Other.testForValidPlayer(p, false, pc.getString("Temp.cmd.EcClear"), true);
+					if (t == null) {
+						p.sendMessage(Eng.PRE + Eng.CMD_NOT_PLAYER);
+						return true;
+					}
+
 					pc.set("Temp.cmd.EcClear", null);
 					t.getEnderChest().clear();
 					if (t == p) {
@@ -46,7 +52,7 @@ public class EcClear implements CommandExecutor {
 					pc.set("Temp.cmd.EcClear", t.getName());
 					p.sendMessage(Eng.CMD_ECCLEAR_CONFIRM_OTHER + "+ t.getName() + ");
 					p.sendMessage(Eng.CMD_ECCLEAR_TYPE_TO_CONFIRM);
-					Bukkit.getScheduler().runTaskLaterAsynchronously(Helpy.getPlugin(), () -> {
+					Bukkit.getScheduler().runTaskLaterAsynchronously(Helpy.getHelpy(), () -> {
 						if (pc.getString("Temp.cmd.EcClear") != null) {
 							pc.set("Temp.cmd.EcClear", null);
 							p.sendMessage(Eng.ANY_INPUT_DELAY_EXPIRED);

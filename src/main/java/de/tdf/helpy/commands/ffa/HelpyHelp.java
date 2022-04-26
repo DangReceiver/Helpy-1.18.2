@@ -16,13 +16,32 @@ public class HelpyHelp implements CommandExecutor {
 		final int s = 1048576;
 		final long l = r.maxMemory() / s - r.freeMemory() / s;
 		sen.sendMessage("§0 \n §0 ");
-		sen.sendMessage(Eng.PRE + "§3Author§8: §bTearsDontFall");
-		sen.sendMessage(Eng.PRE + "§1Plugin §9version§8: §b" + Helpy.VERSION);
-		sen.sendMessage(Eng.PRE + "§5§oStable §9version§8: §d" + Helpy.stable);
-		if (Bukkit.getServer().getVersion().contains("1.16") && sen instanceof Player)
-			sen.sendMessage(Eng.PRE + "Your §aPing§8: §2" + ((Player) sen).getPing());
-		sen.sendMessage(Eng.PRE + "§6RAM §7usage§8: §e" + l + "§6MB §8§l/ §4" + r.maxMemory() / s + "§6MB §8§l| §a" + r.freeMemory() / s + "§6MB §7free§8.");
+		sen.sendMessage(Eng.PRE + "Author§8: §3TearsDontFall");
+		sen.sendMessage(Eng.PRE + "Plugin version§8: §b" + Helpy.VERSION);
+		sen.sendMessage(Eng.PRE + "Stable version§8: §d" + Helpy.stable);
+		if ((Bukkit.getServer().getVersion().contains("1.16") || Bukkit.getServer().getVersion().contains("1.17") ||
+				Bukkit.getServer().getVersion().contains("1.18")) && sen instanceof Player)
+			sen.sendMessage(Eng.PRE + "Your Ping§8: §" + pingColor(((Player) sen)));
+		sen.sendMessage(Eng.PRE + "§6RAM §7usage§8: §e" + l + " §7MB §8§l/ §c" + r.maxMemory() / s + " §7MB §8§l| §b" + r.freeMemory() / s + " §7MB free");
 		sen.sendMessage("§0 \n §0 ");
 		return true;
+	}
+
+	public static String pingColor(Player sen) {
+		int ping = sen.getPing();
+		String c = "4";
+
+		if (ping <= 10)
+			c = "b";
+		else if (ping <= 20)
+			c = "a";
+		else if (ping <= 50)
+			c = "e";
+		else if (ping <= 100)
+			c = "6";
+		else if (ping <= 200)
+			c = "c";
+
+		return c + ping;
 	}
 }

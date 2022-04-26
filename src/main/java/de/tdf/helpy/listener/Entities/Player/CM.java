@@ -10,35 +10,42 @@ import de.tdf.helpy.methods.pConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.io.File;
+
 public class CM implements Listener {
 	@EventHandler
 	public void cmJoin(final PlayerJoinEvent e) {
+
 		final pConfig pc = pConfig.loadConfig(e.getPlayer(), "Helpy");
 		pc.set("Name", e.getPlayer().getName());
 		pc.savePCon();
-		final FileConfiguration con = Helpy.getPlugin().getConfig();
-		if (con.getBoolean("Settings.CustomJoinMessage")) {
+
+		File file = new File("plugins/Helpy/Settings.yml");
+		YamlConfiguration settings = YamlConfiguration.loadConfiguration(file);
+
+		if (settings.getBoolean("Settings.CustomJoinMessage"))
 			e.setJoinMessage(Eng.PRE + "The §6player §e" + e.getPlayer().getName() + " §aconnected§8.");
-		}
-		if (con.getBoolean("Settings.SilentJoin")) {
+		if (settings.getBoolean("Settings.SilentJoin"))
 			e.setJoinMessage("");
-		}
 	}
 
 	@EventHandler
 	public void cmPreJoin(final AsyncPlayerPreLoginEvent e) {
+
 		final OfflinePlayer p = Bukkit.getOfflinePlayer(e.getUniqueId());
+
 		if (!Helpy.preStartDone)
 			e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Eng.PRE_JOIN_STARTING);
-		final FileConfiguration con = Helpy.getPlugin().getConfig();
+
+		FileConfiguration con = Helpy.getHelpy().getConfig();
 		if (!p.isOp() && !con.getBoolean("Maintenance.ignoreOp") && con.getBoolean("Maintenance.Toggled")) {
 			if (con.getBoolean("Maintenance.MaintenanceListEqualsWhitelist")) {
 				if (!p.isWhitelisted()) {
@@ -54,19 +61,22 @@ public class CM implements Listener {
 				e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, con.getString("Maintenance.TrustedMessage"));
 			}
 		}
-		Bukkit.getScheduler().runTaskLater(Helpy.getPlugin(), () -> Bukkit.getPluginManager().callEvent((Event) new HelpyPreConnectionEvent(p, e.getLoginResult())), 0L);
+		Bukkit.getScheduler().runTaskLater(Helpy.getHelpy(), () -> Bukkit.getPluginManager().callEvent(new HelpyPreConnectionEvent(p, e.getLoginResult())), 0L);
 	}
 
 	@EventHandler
 	public void cmQuit(final PlayerQuitEvent e) {
-		final FileConfiguration con = Helpy.getPlugin().getConfig();
-		if (con.getBoolean("Settings.CustomQuitMessage")) {
+
+		File file = new File("plugins/Helpy/Settings.yml");
+		YamlConfiguration settings = YamlConfiguration.loadConfiguration(file);
+
+		if (settings.getBoolean("Settings.CustomQuitMessage"))
 			e.setQuitMessage(Eng.PRE + "The §6player §e" + e.getPlayer().getName() + " §cdisconnected§8.");
-		}
-		if (con.getBoolean("Settings.SilentQuit")) {
+		if (settings.getBoolean("Settings.SilentQuit"))
 			e.setQuitMessage("");
-		}
+
 		final Player p = e.getPlayer();
+
 		if (God.iva.contains(p.getName())) {
 			God.iva.remove(p.getName());
 			p.setInvulnerable(false);
