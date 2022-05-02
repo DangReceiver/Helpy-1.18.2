@@ -57,16 +57,25 @@ public final class Helpy extends JavaPlugin {
 		PluginManager pm = Bukkit.getPluginManager();
 
 		file = new File("plugins/Helpy/Settings.yml");
-		settings = YamlConfiguration.loadConfiguration(file);
-
 		if (!file.exists()) {
+
 			try {
-				file.createNewFile();
-				saveSettings(settings, file);
-			} catch (IOException ex) {
-				cs.sendMessage(Eng.PRE + "The Settings.yml could not be created!");
+				if (file.createNewFile()) {
+					settings = YamlConfiguration.loadConfiguration(file);
+					saveSettings(settings, file);
+
+				} else {
+					cs.sendMessage("§4The settings file could not be created, stopping the plugin.");
+					Bukkit.getPluginManager().disablePlugin(this);
+					return;
+
+				}
+			} catch (IOException e) {
+				cs.sendMessage("§4The settings file could not be created, stopping the plugin.");
+				Bukkit.getPluginManager().disablePlugin(this);
+				return;
 			}
-		}
+		} else settings = YamlConfiguration.loadConfiguration(file);
 
 		pm.registerEvents(new CM(), this);
 		pm.registerEvents(new InvSpeed(), this);
@@ -113,44 +122,42 @@ public final class Helpy extends JavaPlugin {
 		getCommand("CreateWorld").setExecutor(new CreateWorld());
 		getCommand("TpWorld").setExecutor(new TpWorld());
 
-		Bukkit.getScheduler().runTaskLater(this, () -> {
-			for (String s : c.getStringList("Helpy.voidWorlds"))
-				if (Bukkit.getWorld(s) == null) {
-					new WorldCreator(s).createWorld();
-					cs.sendMessage(Eng.PRE + String.format(Eng.LAODING_WORLD, s));
-				} else
-					cs.sendMessage(Eng.PRE + String.format(Eng.WORLD_EXISTS, s));
+		for (String s : c.getStringList("Helpy.voidWorlds"))
+			if (Bukkit.getWorld(s) == null) {
+				new WorldCreator(s).createWorld();
+				cs.sendMessage(Eng.PRE + String.format(Eng.LAODING_WORLD, s));
+			} else
+				cs.sendMessage(Eng.PRE + String.format(Eng.WORLD_EXISTS, s));
 
-			if (!settings.isSet("Settings.GrowedClick.Permission"))
-				settings.set("Settings.Permission.GrowedClick", false);
-			growedPerm = settings.getBoolean("Settings.GrowedClick.Permission");
-			if (!settings.isSet("Settings.grankXp.GrowedClick"))
-				settings.set("Settings.grankXp.GrowedClick", false);
-			grownExp = settings.getBoolean("Settings.grankXp.GrowedClick");
-			if (!settings.isSet("Settings.Permission.DoubleDoors"))
-				settings.set("Settings.Permission.DoubleDoors", false);
-			growedPerm = settings.getBoolean("Settings.Permission.DoubleDoors");
-			if (!settings.isSet("Settings.DisableEvent.KickAll"))
-				settings.set("Settings.DisableEvent.KickAll", true);
-			kickAll = settings.getBoolean("Settings.DisableEvent.KickAll");
+		if (!settings.isSet("Settings.GrowedClick.Permission"))
+			settings.set("Settings.Permission.GrowedClick", false);
+		growedPerm = settings.getBoolean("Settings.GrowedClick.Permission");
+		if (!settings.isSet("Settings.grankXp.GrowedClick"))
+			settings.set("Settings.grankXp.GrowedClick", false);
+		grownExp = settings.getBoolean("Settings.grankXp.GrowedClick");
+		if (!settings.isSet("Settings.Permission.DoubleDoors"))
+			settings.set("Settings.Permission.DoubleDoors", false);
+		growedPerm = settings.getBoolean("Settings.Permission.DoubleDoors");
+		if (!settings.isSet("Settings.DisableEvent.KickAll"))
+			settings.set("Settings.DisableEvent.KickAll", true);
+		kickAll = settings.getBoolean("Settings.DisableEvent.KickAll");
 
-			if (!settings.isSet("Settings.SilentJoin"))
-				settings.set("Settings.SilentJoin", false);
-			if (!settings.isSet("Settings.SilentQuit"))
-				settings.set("Settings.SilentQuit", false);
-			if (!settings.isSet("Settings.CustomJoinMessage"))
-				settings.set("Settings.CustomJoinMessage", false);
-			if (!settings.isSet("Settings.CustomQuitMessage"))
-				settings.set("Settings.CustomQuitMessage", false);
+		if (!settings.isSet("Settings.SilentJoin"))
+			settings.set("Settings.SilentJoin", false);
+		if (!settings.isSet("Settings.SilentQuit"))
+			settings.set("Settings.SilentQuit", false);
+		if (!settings.isSet("Settings.CustomJoinMessage"))
+			settings.set("Settings.CustomJoinMessage", false);
+		if (!settings.isSet("Settings.CustomQuitMessage"))
+			settings.set("Settings.CustomQuitMessage", false);
 
-			if (!settings.isSet("Settings.Spawn.Location"))
-				cs.sendMessage(Eng.PRE + "§cThe spawn's location is unset!");
-			if (!settings.isSet("Settings.Spawn.Permission"))
-				settings.set("Settings.Spawn.Permission", false);
-			if (!settings.isSet("Settings.Spawn.Title"))
-				settings.set("Settings.Spawn.Title", true);
-			saveSettings(settings, file);
-		}, 1);
+		if (!settings.isSet("Settings.Spawn.Location"))
+			cs.sendMessage(Eng.PRE + "§cThe spawn's location is unset!");
+		if (!settings.isSet("Settings.Spawn.Permission"))
+			settings.set("Settings.Spawn.Permission", false);
+		if (!settings.isSet("Settings.Spawn.Title"))
+			settings.set("Settings.Spawn.Title", true);
+		saveSettings(settings, file);
 
 
 		if (!c.isSet("broadcast.broadcasts") || c.getStringList("broadcast.broadcasts").isEmpty())
