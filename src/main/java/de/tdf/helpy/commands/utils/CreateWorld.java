@@ -57,15 +57,15 @@ public class CreateWorld implements CommandExecutor {
 			}
 
 			p.sendMessage(Eng.PRE + "Starting creation of the world " + s + " with bedrock: " + b);
-			UseVoid.createVoidWorld(s, b);
+//			UseVoid.createVoidWorld(s, b);
+			UseVoid.createSteams(s);
 
-			File file = new File("plugins/Helpy/Settings.yml");
-			YamlConfiguration settings = YamlConfiguration.loadConfiguration(file);
+			FileConfiguration c = Helpy.getHelpy().getConfig();;
 
-			List<String> vWorlds = settings.getStringList("Helpy.voidWorlds");
-			if (!vWorlds.contains(s))
-				vWorlds.add(s);
-			settings.set("Helpy.voidWorlds", vWorlds);
+			List<String> vWorlds = c.getStringList("Helpy.voidWorlds");
+			if (!vWorlds.contains(s)) vWorlds.add(s);
+
+			c.set("Helpy.voidWorlds", vWorlds);
 			Helpy.getHelpy().saveConfig();
 
 			final String wName = s;

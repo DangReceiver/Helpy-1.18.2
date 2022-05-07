@@ -1,6 +1,5 @@
 package de.tdf.helpy.helpy;
 
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import de.tdf.helpy.commands.ffa.HelpyHelp;
 import de.tdf.helpy.commands.ffa.Hunger;
 import de.tdf.helpy.commands.ffa.Spawn;
@@ -11,18 +10,15 @@ import de.tdf.helpy.listener.Entities.NonPlayer.CreeperExplode;
 import de.tdf.helpy.listener.Entities.Player.*;
 import de.tdf.helpy.methods.BroadcastLoop;
 import de.tdf.helpy.methods.lang.Eng;
+import de.tdf.helpy.methods.worldGenerator.UseVoid;
 import org.bukkit.*;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
-import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -55,27 +51,6 @@ public final class Helpy extends JavaPlugin {
 
 		ConsoleCommandSender cs = Bukkit.getConsoleSender();
 		PluginManager pm = Bukkit.getPluginManager();
-
-		file = new File("plugins/Helpy/Settings.yml");
-		if (!file.exists()) {
-
-			try {
-				if (file.createNewFile()) {
-					settings = YamlConfiguration.loadConfiguration(file);
-					saveSettings(settings, file);
-
-				} else {
-					cs.sendMessage("§4The settings file could not be created, stopping the plugin.");
-					Bukkit.getPluginManager().disablePlugin(this);
-					return;
-
-				}
-			} catch (IOException e) {
-				cs.sendMessage("§4The settings file could not be created, stopping the plugin.");
-				Bukkit.getPluginManager().disablePlugin(this);
-				return;
-			}
-		} else settings = YamlConfiguration.loadConfiguration(file);
 
 		pm.registerEvents(new CM(), this);
 		pm.registerEvents(new InvSpeed(), this);
@@ -122,12 +97,85 @@ public final class Helpy extends JavaPlugin {
 		getCommand("CreateWorld").setExecutor(new CreateWorld());
 		getCommand("TpWorld").setExecutor(new TpWorld());
 
-		for (String s : c.getStringList("Helpy.voidWorlds"))
-			if (Bukkit.getWorld(s) == null) {
-				new WorldCreator(s).createWorld();
-				cs.sendMessage(Eng.PRE + String.format(Eng.LAODING_WORLD, s));
-			} else
-				cs.sendMessage(Eng.PRE + String.format(Eng.WORLD_EXISTS, s));
+		Bukkit.getScheduler().runTask(this, () -> {
+			for (String s : c.getStringList("Helpy.voidWorlds"))
+				if (Bukkit.getWorld(s) == null) {
+//				new WorldCreator(s).createWorld();
+					UseVoid.createSteams(s);
+					cs.sendMessage(Eng.PRE + String.format(Eng.LAODING_WORLD, s));
+				} else
+					cs.sendMessage(Eng.PRE + String.format(Eng.WORLD_EXISTS, s));
+
+			settingsProcess();
+		});
+
+
+		if (!c.isSet("broadcast.broadcasts") || c.getStringList("broadcast.broadcasts").isEmpty())
+			c.set("broadcast.broadcasts", broadcasts);
+		broadcasts = c.getStringList("broadcast.broadcasts");
+		if (!c.isSet("broadcast.inOrder"))
+			c.set("broadcast.inOrder", true);
+		if (!c.isSet("broadcast.delayInSeconds"))
+			c.set("broadcast.delayInSeconds", 60);
+		if (!c.isSet("broadcast.toggle"))
+			c.set("broadcast.toggle", true);
+		if (!c.isSet("broadcast.excludeConsole"))
+			c.set("broadcast.excludeConsole", false);
+		if (!c.isSet("broadcast.prefix"))
+			c.set("broadcast.prefix", Eng.PRE);
+		if (c.getBoolean("broadcast.toggle"))
+			BroadcastLoop.startLoop();
+		saveConfig();
+
+		getCommand("Spawn").setExecutor(new Spawn());
+
+		Bukkit.getScheduler().runTaskLater(this, () -> preStartDone = true, 65L);
+	}
+
+	public synchronized String getVersion() {
+		String v = null;
+		try {
+			Properties p = new Properties();
+			InputStream is = getClass().getResourceAsStream("/META-INF/maven/de.tdf/Helpy/pom.properties");
+			if (is != null) {
+				p.load(is);
+				v = p.getProperty("version", "");
+			}
+		} catch (Exception ignored) {
+		}
+		if (v == null) {
+			Package ap = getClass().getPackage();
+			if (ap != null) {
+				v = ap.getImplementationVersion();
+				if (v == null)
+					v = ap.getSpecificationVersion();
+			}
+		}
+		return v;
+	}
+
+	public void settingsProcess() {
+		ConsoleCommandSender cs = Bukkit.getConsoleSender();
+		file = new File("plugins/Helpy/Settings.yml");
+		if (!file.exists()) {
+
+			try {
+				if (file.createNewFile()) {
+					settings = YamlConfiguration.loadConfiguration(file);
+					saveSettings(settings, file);
+
+				} else {
+					cs.sendMessage("§4The settings file could not be created, stopping the plugin.");
+					Bukkit.getPluginManager().disablePlugin(this);
+					return;
+
+				}
+			} catch (IOException e) {
+				cs.sendMessage("§4The settings file could not be created, stopping the plugin.");
+				Bukkit.getPluginManager().disablePlugin(this);
+				return;
+			}
+		} else settings = YamlConfiguration.loadConfiguration(file);
 
 		if (!settings.isSet("Settings.GrowedClick.Permission"))
 			settings.set("Settings.Permission.GrowedClick", false);
@@ -158,50 +206,6 @@ public final class Helpy extends JavaPlugin {
 		if (!settings.isSet("Settings.Spawn.Title"))
 			settings.set("Settings.Spawn.Title", true);
 		saveSettings(settings, file);
-
-
-		if (!c.isSet("broadcast.broadcasts") || c.getStringList("broadcast.broadcasts").isEmpty())
-			c.set("broadcast.broadcasts", broadcasts);
-		broadcasts = c.getStringList("broadcast.broadcasts");
-		if (!c.isSet("broadcast.inOrder"))
-			c.set("broadcast.inOrder", true);
-		if (!c.isSet("broadcast.delayInSeconds"))
-			c.set("broadcast.delayInSeconds", 60);
-		if (!c.isSet("broadcast.toggle"))
-			c.set("broadcast.toggle", true);
-		if (!c.isSet("broadcast.excludeConsole"))
-			c.set("broadcast.excludeConsole", false);
-		if (!c.isSet("broadcast.prefix"))
-			c.set("broadcast.prefix", Eng.PRE);
-		if (c.getBoolean("broadcast.toggle"))
-			BroadcastLoop.startLoop();
-		saveConfig();
-
-		getCommand("Spawn").setExecutor(new Spawn());
-
-		Bukkit.getScheduler().runTaskLater(this, () -> preStartDone = true, 60L);
-	}
-
-	public synchronized String getVersion() {
-		String v = null;
-		try {
-			Properties p = new Properties();
-			InputStream is = getClass().getResourceAsStream("/META-INF/maven/de.tdf/Helpy/pom.properties");
-			if (is != null) {
-				p.load(is);
-				v = p.getProperty("version", "");
-			}
-		} catch (Exception ignored) {
-		}
-		if (v == null) {
-			Package ap = getClass().getPackage();
-			if (ap != null) {
-				v = ap.getImplementationVersion();
-				if (v == null)
-					v = ap.getSpecificationVersion();
-			}
-		}
-		return v;
 	}
 
 	public static void saveSettings(YamlConfiguration settings, File file) {
