@@ -23,8 +23,6 @@ public class UseVoid {
 			WorldCreator creator = new WorldCreator(name);
 			creator.generator(new VoidGenerator());
 			creator.createWorld();
-		} else {
-			// Exists already
 		}
 	}
 
