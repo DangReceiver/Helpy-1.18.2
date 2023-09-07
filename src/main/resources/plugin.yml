@@ -1,7 +1,7 @@
 name: Helpy
 version: '${project.version}'
 main: de.tdf.helpy.helpy.Helpy
-api-version: 1.19
+api-version: 1.18
 authors: [ TearsDontFall ]
 description: A multifunctional, useful plugin to ease your day in Minecraft.
 
