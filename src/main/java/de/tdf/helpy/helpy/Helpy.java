@@ -38,8 +38,8 @@ public final class Helpy extends JavaPlugin {
 	public static List<String> listeners = new ArrayList<>(
 			Arrays.asList("TreeCutDown", "Doors", "CreeperRemovePotion",
 					"CreeperActivateCreeper", "ClickGrowedSeed")),
-			broadcasts = new ArrayList<>(Arrays.asList("Example Broadcast", "Hey Maxim",
-					"continue this list!", "Keine Doppelpunkte verwenden!", "§aColor §6codes via Paragraphenzeichen"));
+			broadcasts = new ArrayList<>(Arrays.asList("Example Broadcast", "continue this list!",
+					"Keine Doppelpunkte verwenden!", "§aColor §6codes via Paragraphenzeichen"));
 
 
 	File file;
@@ -50,13 +50,26 @@ public final class Helpy extends JavaPlugin {
 		VERSION = this.getVersion();
 
 		ConsoleCommandSender cs = Bukkit.getConsoleSender();
+		FileConfiguration c = getConfig();
+
+		Bukkit.getScheduler().runTask(this, () -> {
+			settingsProcess();
+			for (String s : c.getStringList("Helpy.voidWorlds"))
+				if (Bukkit.getWorld(s) == null) {
+//				new WorldCreator(s).createWorld();
+					UseVoid.createSteams(s);
+					cs.sendMessage(Eng.PRE + String.format(Eng.LAODING_WORLD, s));
+				} else
+					cs.sendMessage(Eng.PRE + String.format(Eng.WORLD_EXISTS, s));
+
+		});
+
 		PluginManager pm = Bukkit.getPluginManager();
 
 		pm.registerEvents(new CM(), this);
 		pm.registerEvents(new InvSpeed(), this);
 		pm.registerEvents(new DisableEvent(), this);
 
-		FileConfiguration c = getConfig();
 		if (!c.isSet("cStrings.Prefix"))
 			c.set("cStrings.Prefix", "§b§oHelpy§8: §7");
 		Eng.PRE = c.getString("cStrings.Prefix").replaceAll(";", ":");
@@ -97,20 +110,7 @@ public final class Helpy extends JavaPlugin {
 		getCommand("CreateWorld").setExecutor(new CreateWorld());
 		getCommand("TpWorld").setExecutor(new TpWorld());
 
-		Bukkit.getScheduler().runTask(this, () -> {
-			for (String s : c.getStringList("Helpy.voidWorlds"))
-				if (Bukkit.getWorld(s) == null) {
-//				new WorldCreator(s).createWorld();
-					UseVoid.createSteams(s);
-					cs.sendMessage(Eng.PRE + String.format(Eng.LAODING_WORLD, s));
-				} else
-					cs.sendMessage(Eng.PRE + String.format(Eng.WORLD_EXISTS, s));
-
-			settingsProcess();
-		});
-
-
-		if (!c.isSet("broadcast.broadcasts") || c.getStringList("broadcast.broadcasts").isEmpty())
+		if (!c.isSet("broadcast.broadcasts") )
 			c.set("broadcast.broadcasts", broadcasts);
 		broadcasts = c.getStringList("broadcast.broadcasts");
 		if (!c.isSet("broadcast.inOrder"))
@@ -123,13 +123,14 @@ public final class Helpy extends JavaPlugin {
 			c.set("broadcast.excludeConsole", false);
 		if (!c.isSet("broadcast.prefix"))
 			c.set("broadcast.prefix", Eng.PRE);
-		if (c.getBoolean("broadcast.toggle"))
-			BroadcastLoop.startLoop();
 		saveConfig();
+
+//		if (c.getBoolean("broadcast.toggle"))
+//			BroadcastLoop.startLoop();
 
 		getCommand("Spawn").setExecutor(new Spawn());
 
-		Bukkit.getScheduler().runTaskLater(this, () -> preStartDone = true, 65L);
+		Bukkit.getScheduler().runTaskLater(this, () -> preStartDone = true, 30L);
 	}
 
 	public synchronized String getVersion() {
@@ -176,36 +177,6 @@ public final class Helpy extends JavaPlugin {
 				return;
 			}
 		} else settings = YamlConfiguration.loadConfiguration(file);
-
-		if (!settings.isSet("Settings.GrowedClick.Permission"))
-			settings.set("Settings.Permission.GrowedClick", false);
-		growedPerm = settings.getBoolean("Settings.GrowedClick.Permission");
-		if (!settings.isSet("Settings.grankXp.GrowedClick"))
-			settings.set("Settings.grankXp.GrowedClick", false);
-		grownExp = settings.getBoolean("Settings.grankXp.GrowedClick");
-		if (!settings.isSet("Settings.Permission.DoubleDoors"))
-			settings.set("Settings.Permission.DoubleDoors", false);
-		growedPerm = settings.getBoolean("Settings.Permission.DoubleDoors");
-		if (!settings.isSet("Settings.DisableEvent.KickAll"))
-			settings.set("Settings.DisableEvent.KickAll", true);
-		kickAll = settings.getBoolean("Settings.DisableEvent.KickAll");
-
-		if (!settings.isSet("Settings.SilentJoin"))
-			settings.set("Settings.SilentJoin", false);
-		if (!settings.isSet("Settings.SilentQuit"))
-			settings.set("Settings.SilentQuit", false);
-		if (!settings.isSet("Settings.CustomJoinMessage"))
-			settings.set("Settings.CustomJoinMessage", false);
-		if (!settings.isSet("Settings.CustomQuitMessage"))
-			settings.set("Settings.CustomQuitMessage", false);
-
-		if (!settings.isSet("Settings.Spawn.Location"))
-			cs.sendMessage(Eng.PRE + "§cThe spawn's location is unset!");
-		if (!settings.isSet("Settings.Spawn.Permission"))
-			settings.set("Settings.Spawn.Permission", false);
-		if (!settings.isSet("Settings.Spawn.Title"))
-			settings.set("Settings.Spawn.Title", true);
-		saveSettings(settings, file);
 	}
 
 	public static void saveSettings(YamlConfiguration settings, File file) {

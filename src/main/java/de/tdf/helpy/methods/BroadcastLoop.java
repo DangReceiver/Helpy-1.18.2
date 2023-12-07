@@ -19,7 +19,13 @@ public class BroadcastLoop {
 		FileConfiguration con = Helpy.getHelpy().getConfig();
 		long period = con.getLong("broadcast.delayInSeconds");
 		boolean order = con.getBoolean("broadcast.inOrder"),
-				playersOnly = con.isSet("broadcast.excludeConsole");
+				playersOnly = con.isSet("broadcast.excludeConsole"),
+				toggle = con.getBoolean("broadcast.toggle");
+
+		if (!toggle) {
+			System.out.println(Eng.PRE + "The broadcast loop was disabled");
+			return;
+		}
 
 		List<String> bc = Helpy.broadcasts;
 		pre = con.getString("broadcast.prefix");
